@@ -69,7 +69,6 @@ stage('Run Spring && MySQL Containers') {
             }
         }
 
-st
 
 
 
@@ -80,7 +79,7 @@ st
 
 
 
-}
+
 
 
     /*    post {
