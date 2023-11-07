@@ -68,8 +68,8 @@ pipeline{
 
                   stage('login dockerhub') {
                                         steps {
-                                     // sh 'echo dckr_pat_-SnwrdC_ELsL6it2JT6cgIcAlrs | docker login -u azizbenhaha --password-stdin'
-				sh 'docker login -u waelgharsalli --password dckr_pat_iA3hEtxDg8XpuFYMwgqwBjZgnwo'
+                                      
+				sh 'docker login -u waelgharsalli --password dckr_pat_Wy5ngfj1a9nX7YTCP2KBktHgq1o'
                                             }
 		  }
 
