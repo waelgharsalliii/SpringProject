@@ -25,6 +25,12 @@ pipeline {
             }
        }
 
+        stage("mockito"){
+                    steps {
+                        sh 'mvn -Dtest=mockito test'
+                    }
+                }
+
 }
 }
 
