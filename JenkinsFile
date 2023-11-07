@@ -10,7 +10,7 @@ pipeline{
             steps{
       			checkout([$class: 'GitSCM', branches: [[name: '*/main']],
 			extensions: [],
-			userRemoteConfigs: [[url: 'https://github.com/waelgharsalliii/SpringProject.git']]])
+			userRemoteConfigs: [[url: 'github.com/waelgharsalliii/SpringProject.git']]])
             }
         }
 
@@ -31,54 +31,59 @@ pipeline{
 
 
 
-         stage('JUnit / Mockito') {
+        stage('SONARQUBE') {
             steps{
-               		 sh "mvn test "
+
+             		mvn clean verify sonar:sonar \-Dsonar.projectKey=Devops_Project -Dsonar.projectName='Devops_Project' -Dsonar.host.url=http://192.168.1.22:9000 -Dsonar.token=sqp_ffb53403c75d7afa1829ffb8197acfd7cd47b433
             }
         }
 
 
-
-	stage('SONARQUBE') {
-            steps{
-
-             		sh " mvn clean verify sonar:sonar -Dsonar.projectKey=DevOps_Project -Dsonar.projectName='DevOps_Project' -Dsonar.host.url=http://192.168.1.22:9000 -Dsonar.token=sqp_5e92138024d3378c95b08b07443d753692edc27d"
-            }
-        }
-
-
-/*
         stage('Publish to Nexus') {
             steps {
 
 
-  sh 'mvn deploy'
-
+                sh 'mvn deploy'
+               }
 
             }
-        }
-*/
-	stage('Build Docker Image') {
-                      steps {
-                          script {
-                            sh 'docker build -t waelgharsalli/devops_project:wael .'
-                          }
-                      }
-                  }
 
-                  stage('login dockerhub') {
-                                        steps {
-                                      
-				sh 'docker login -u waelgharsalli --password dckr_pat_Wy5ngfj1a9nX7YTCP2KBktHgq1o'
-                                            }
-		  }
+            	stage('Build Docker Image') {
+                                  steps {
+                                      script {
+                                        sh 'docker build -t waelgharsalli/devops_project:wael .'
+                                              }
+                                  }
+                              }
 
-	                      stage('Push Docker Image') {
-                                        steps {
-                                   sh 'docker push waelgharsalli/devops_project:wael'
-                                            }
+                              stage('login dockerhub') {
+                                                    steps {
 
-		  }
+            				sh 'docker login -u waelgharsalli --password dckr_pat_Wy5ngfj1a9nX7YTCP2KBktHgq1o'
+                                                        }
+            		          }
+
+            	                      stage('Push Docker Image') {
+                                                    steps {
+                                               sh 'docker push waelgharsalli/devops_project:wael'
+                                                        }
+
+            		  }
+            		  }
+            		  }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -115,13 +120,3 @@ Keep working !
 */
 
 }
-
-
-
-
-
-
-
-
-
- 
