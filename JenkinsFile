@@ -6,11 +6,10 @@ pipeline{
     stages {
 
 
-        stage('Getting project from Git') {
-            steps{
-      			checkout([$class: 'GitSCM', branches: [[name: '*/main']],
-			extensions: [],
-			userRemoteConfigs: [[url: 'github.com/waelgharsalliii/SpringProject.git']]])
+        stages {
+        stage('Récupération du code') {
+            steps {
+                checkout scm
             }
         }
 
