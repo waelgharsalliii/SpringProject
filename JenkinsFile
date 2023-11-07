@@ -37,28 +37,17 @@ pipeline{
             }
         }
 
-stage('Test & Jacoco Static Analysis') {
-    	    steps {
-               // Analysis of Test using Junit + Jacoco (Mockito + Junit)
-          	  	junit 'target/surefire-reports/*.xml'
-          		jacoco()
-		   }
-        }
-stage('Run Spring && MySQL Containers') {
-                                steps {
-                                    script {
-                                      sh 'docker-compose up -d'
-                                    }
-                                }
-                            }
-        stage('SONARQUBE') {
+
+
+	stage('SONARQUBE') {
             steps{
 
-             		sh "mvn clean verify sonar:sonar -Dsonar.projectKey=DevOps_Project -Dsonar.projectName='DevOps_Project' -Dsonar.host.url=http://192.168.1.22:9000 -Dsonar.token=sqp_5e92138024d3378c95b08b07443d753692edc27d"
+             		sh " mvn clean verify sonar:sonar -Dsonar.projectKey=DevOps_Project -Dsonar.projectName='DevOps_Project' -Dsonar.host.url=http://192.168.1.22:9000 -Dsonar.token=sqp_5e92138024d3378c95b08b07443d753692edc27d"
             }
         }
 
 
+/*
         stage('Publish to Nexus') {
             steps {
 
@@ -68,9 +57,28 @@ stage('Run Spring && MySQL Containers') {
 
             }
         }
+*/
+	stage('Build Docker Image') {
+                      steps {
+                          script {
+                            sh 'docker build -t waelgharsalli/devops_project:wael .'
+                          }
+                      }
+                  }
 
-st
+                  stage('login dockerhub') {
+                                        steps {
+                                     // sh 'echo dckr_pat_-SnwrdC_ELsL6it2JT6cgIcAlrs | docker login -u azizbenhaha --password-stdin'
+				sh 'docker login -u waelgharsalli --password dckr_pat_iA3hEtxDg8XpuFYMwgqwBjZgnwo'
+                                            }
+		  }
 
+	                      stage('Push Docker Image') {
+                                        steps {
+                                   sh 'docker push waelgharsalli/devops_project:wael'
+                                            }
+
+		  }
 
 
 
@@ -107,3 +115,13 @@ Keep working !
 */
 
 }
+
+
+
+
+
+
+
+
+
+ 
