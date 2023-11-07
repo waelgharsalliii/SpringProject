@@ -1,46 +1,22 @@
-pipeline{
+pipeline {
     agent any
 
 
-
     stages {
-
-
-        stages {
         stage('Récupération du code') {
             steps {
                 checkout scm
             }
         }
 
-
-       stage('Cleaning the project') {
-            steps{
-                	sh "mvn -B -DskipTests clean  "
+        stage('Lancement de la commande Maven') {
+            steps {
+                sh 'mvn clean compile'
             }
         }
 
-
-
-        stage('Artifact Construction') {
-            steps{
-                	sh "mvn -B -DskipTests package "
-            }
-        }
-
-
-
-     
-
-  }
 }
-
-
-
-
-
-
-
+}
 
 
 
